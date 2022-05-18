@@ -6,9 +6,12 @@ const inventoryController = require('../controllers/inventoryController');
 router.get('/', inventoryController.getInventory);
 
 // route for creating a new entry
-router.post('/new', inventoryController.createInventoryItem);
+router.post('/', inventoryController.createInventoryItem);
+
+//route for updating an entry
+router.put('/:id', inventoryController.updateInventoryItem);
 
 // route for deleting an entry
-router.delete('/delete/:id', inventoryController.deleteInventoryItem);
+router.delete('/:id', inventoryController.deleteInventoryItem);
 
 module.exports = router;

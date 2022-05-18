@@ -30,6 +30,20 @@ module.exports = {
     }
   },
 
+  // updates an existing entry and returns the new row
+  updateInventoryItem: async (req, res) => {
+    try {
+      const {name, description, quantity, unit_price} = req.body;
+      const id = req.params.id;
+
+      const updatedItem = await Inventory.update(id, name, description, quantity, unit_price);
+
+      res.status(200).json(updatedItem.rows);
+    } catch (err) {
+      res.status(400).json({ err });
+    }
+  },
+
   deleteInventoryItem: async (req, res) => {
     try {
       const deletedItem = await Inventory.delete(req.params.id);

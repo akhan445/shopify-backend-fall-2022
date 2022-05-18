@@ -26,11 +26,18 @@ Inventory.create = (name, description, quantity, unit_price) => {
 };
 
 // Update an existing entry
+Inventory.update = (id, name, description, quantity, unit_price) => {
+  return db.query(`
+    UPDATE inventory
+    SET name = $1, description = $2, quantity = $3, unit_price = $4
+    WHERE id = $5 RETURNING *;
+    `, [name, description, quantity, unit_price, id]);
+}
 
 // Delete an existing entry
 Inventory.delete = (id) => {
   return db.query(`
-    DELETE from inventory WHERE id = $1;
+    DELETE from inventory WHERE id = $1 RETURNING *;
     `, [id]);
 }
 
