@@ -8,11 +8,21 @@ const Inventory = {};
 
 // CRUD operations
 
-// Create a new inventory entry
-
 // Read list of all inventory entries
 Inventory.get = () => {
   return db.query('SELECT * FROM inventory');
+};
+
+// Create a new inventory entry returning the values created
+Inventory.create = (name, description, quantity, unit_price) => {
+  return db.query(`
+    INSERT INTO inventory(name, description, quantity, unit_price)
+    VALUES (
+      $1, 
+      $2, 
+      $3, 
+      $4
+      ) RETURNING *;`, [name, description, quantity, unit_price]);
 };
 
 // Update an existing entry

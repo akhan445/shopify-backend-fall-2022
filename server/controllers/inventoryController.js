@@ -13,5 +13,20 @@ module.exports = {
     } catch (err) {
       res.status(400).json({ err });
     }
-  }
+  },
+  
+  createInventoryItem: async (req, res) => {
+    try {
+      // get the information passed in the request body
+      const {name, description, quantity, unit_price} = req.body;
+      
+      //create a new entry using the passed data
+      const newItem = await Inventory.create(name, description, quantity, unit_price);
+      
+      //returns the rows created
+      res.status(201).json(newItem.rows);
+    } catch (err) {
+      res.status(400).json({ err });
+    }
+  },
 }
