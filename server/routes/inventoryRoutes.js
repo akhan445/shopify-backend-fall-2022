@@ -8,4 +8,7 @@ router.get('/', inventoryController.getInventory);
 // route for creating a new entry
 router.post('/new', inventoryController.createInventoryItem);
 
+// route for deleting an entry
+router.delete('/delete/:id', inventoryController.deleteInventoryItem);
+
 module.exports = router;

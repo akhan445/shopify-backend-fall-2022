@@ -14,7 +14,7 @@ module.exports = {
       res.status(400).json({ err });
     }
   },
-  
+
   createInventoryItem: async (req, res) => {
     try {
       // get the information passed in the request body
@@ -29,4 +29,13 @@ module.exports = {
       res.status(400).json({ err });
     }
   },
+
+  deleteInventoryItem: async (req, res) => {
+    try {
+      const deletedItem = await Inventory.delete(req.params.id);
+      res.status(200).json(deletedItem);
+    } catch (err) {
+      res.status(400).json({ err });
+    }
+  }
 }

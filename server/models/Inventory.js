@@ -28,5 +28,10 @@ Inventory.create = (name, description, quantity, unit_price) => {
 // Update an existing entry
 
 // Delete an existing entry
+Inventory.delete = (id) => {
+  return db.query(`
+    DELETE from inventory WHERE id = $1;
+    `, [id]);
+}
 
 module.exports = Inventory;
