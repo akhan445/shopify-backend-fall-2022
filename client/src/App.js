@@ -20,13 +20,22 @@ function App() {
       .finally(() => {
         setLoading(false);
       })
-  }, []);
+  }, [data]);
+
+  function handleRemove(event, id) {
+    event.preventDefault();
+
+    axios.delete(`/api/inventory/${id}`)
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+  }
   return (
     <div className='App'>
         <InventoryList 
           loading={loading}
           error={error}
           data={data}
+          onDelete={handleRemove}
         />
         {/* <AddInventory /> */}
     </div>

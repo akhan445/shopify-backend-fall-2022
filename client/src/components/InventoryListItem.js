@@ -1,10 +1,8 @@
 import './InventoryList.css';
 
-function InventoryListItem({ data }) {
+function InventoryListItem({value }) {
   return (
-    <tr key={data.id}>
-      {Object.values(data).map((value, index) => <td key={index}>{value}</td>)}
-    </tr>
+    <td>{value}</td>
   )
 }
 

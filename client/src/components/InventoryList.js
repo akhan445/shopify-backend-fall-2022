@@ -1,8 +1,13 @@
 
+import axios from 'axios';
 import './InventoryList.css';
 import InventoryListItem from './InventoryListItem';
 
-function InventoryList({loading, error, data}) {
+function InventoryList({loading, error, data, onDelete}) {
+
+  function handleRemove(event, id) {
+    onDelete(event, id)
+  }
 
   return (
     <>
@@ -19,15 +24,19 @@ function InventoryList({loading, error, data}) {
                 <th>Description</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
               {data.map(row => {
+                const rowData = Object.values(row).map((data, index) => <InventoryListItem key={index} value={data}/>)
                 return (
-                  <InventoryListItem
-                    key={row.id}
-                    data={row}
-                  />
+                  <tr key={row.id}>
+                    {rowData}
+                    <td>
+                      <button onClick={(event) => handleRemove(event, row.id)}>Delete</button>
+                    </td>
+                  </tr>
                 )
               })}
             </tbody>
