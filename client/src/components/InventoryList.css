@@ -37,3 +37,16 @@ tr:nth-child(odd) td {
 caption {
   padding: 10px;
 }
+
+form {
+  display: table;
+}
+
+label, input {
+  display: table-cell;
+  margin-bottom: 10px;
+}
+
+label {
+  padding-right: 10px;
+}
