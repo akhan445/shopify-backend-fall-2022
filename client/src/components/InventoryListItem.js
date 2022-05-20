@@ -1,6 +1,6 @@
 import './InventoryList.css';
 
-function InventoryListItem({value }) {
+function InventoryListItem({ value }) {
   return (
     <td>{value}</td>
   )

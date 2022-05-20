@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './InventoryList.css';
 import InventoryListItem from './InventoryListItem';
 
-function InventoryList({loading, error, data, onEdit, onDelete, onAdd}) {
+function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -11,15 +11,43 @@ function InventoryList({loading, error, data, onEdit, onDelete, onAdd}) {
     unit_price: ''
   });
 
+  const [editValues, setEditValues] = useState({
+    id: '',
+    name: '',
+    description: '',
+    quantity: '',
+    unit_price: ''
+  });
+
+  const [showModal, setShowModal] = useState("none");
+
+  function openModal() {
+    setShowModal("block");
+  }
+
+  function closeModal() {
+    setShowModal("none");
+    setEditValues({
+      id: '',
+      name: '',
+      description: '',
+      quantity: '',
+      unit_price: ''
+    });
+  }
+
   function handleEdit(event, id) {
-    onEdit(event, id);
+    event.preventDefault();
+    const currentRow = data.filter(row => row.id === id);
+    setEditValues(currentRow[0]);
+    openModal();
   }
 
   function handleRemove(event, id) {
     onDelete(event, id)
   }
 
-  // handles changes in form input
+  // handles changes in form input (for Adding a new item)
   function handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
@@ -31,33 +59,84 @@ function InventoryList({loading, error, data, onEdit, onDelete, onAdd}) {
 
   }
 
+  // handles changes in form input (for editing an item)
+  function handleEditChange(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+    
+    setEditValues({
+      ...editValues,
+      [name]: value
+    });
+
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     onAdd(values);
+    setValues({
+      name: '',
+      description: '',
+      quantity: '',
+      unit_price: ''
+    })
+  }
+
+  function handleEditSubmit(event) {
+    onUpdate(event, editValues);
   }
 
   return (
     <>
       <div className='layout'>
+        <div id="myModal" className="modal" style={{display: showModal}}>
+          <div className="modal-content">
+          <span className="close" onClick={closeModal}>&times;</span>
+          <h2>Edit Entry</h2>
+          <form className="edit-form" onSubmit={handleEditSubmit}>
+            <label>
+              Name:&nbsp;&nbsp;
+              <input name="name" type="text" value={editValues.name} onChange={handleEditChange} />
+            </label><br/>
+            <label>
+              Description:&nbsp;&nbsp;
+              <input type="text" name="description" value={editValues.description} onChange={handleEditChange} />
+            </label><br/>
+            <label>
+              Quantity:&nbsp;&nbsp;
+              <input type="text" name="quantity" value={editValues.quantity} onChange={handleEditChange} />
+            </label><br/>
+            <label>
+              Unit Price:&nbsp;&nbsp;
+              <input type="text" name="unit_price" value={editValues.unit_price} onChange={handleEditChange} />
+            </label><br/>
+            <label>
+              <input type="submit" value="Update Item"/>
+            </label>
+          </form>
+          </div>
+        </div>
         <h2>Add Inventory Item</h2>
-        <form onSubmit={handleSubmit}>
+        <form className="add-form" onSubmit={handleSubmit}>
           <label>
             Name:&nbsp;&nbsp;
             <input name="name" type="text" value={values.name} onChange={handleChange} />
-          </label>
+          </label><br/>
           <label>
             Description:&nbsp;&nbsp;
             <input type="text" name="description" value={values.description} onChange={handleChange} />
-          </label>
+          </label><br/>
           <label>
             Quantity:&nbsp;&nbsp;
             <input type="text" name="quantity" value={values.quantity} onChange={handleChange} />
-          </label>
+          </label><br/>
           <label>
             Unit Price:&nbsp;&nbsp;
             <input type="text" name="unit_price" value={values.unit_price} onChange={handleChange} />
+          </label><br/>
+          <label>
+            <input type="submit" value="Add Item"/>
           </label>
-          <input type="submit" value="Add Item"/>
         </form>
       </div>
       {loading && <p>Loading...</p>}

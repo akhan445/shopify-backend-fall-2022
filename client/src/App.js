@@ -7,6 +7,7 @@ function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // const [showModal, setShowModal] = useState("none");
 
   useEffect(() => {
     axios.get('/api/inventory')
@@ -22,6 +23,27 @@ function App() {
       })
   }, []);
 
+  //handle a new add
+  function handleAdd(values) {
+    axios.post('/api/inventory', values)
+    .then(res => {
+      //add the new item to state to display in front end
+      const newState =[...data];
+      newState.push(res.data[0]);
+      setData(newState);
+    })
+    .catch(err => console.log(err))
+  }
+
+  // handle an edit to an existing inventory item 
+  function handleUpdate(event, editValues) {
+    event.preventDefault();
+    console.log(editValues)
+  }
+
+  // function closeModal() {
+  //   setShowModal("none");
+  // }
   function handleRemove(event, id) {
     event.preventDefault();
 
@@ -33,25 +55,15 @@ function App() {
       })
       .catch(err => console.log(err))
   }
-
-  function handleAdd(values) {
-    axios.post('/api/inventory', values)
-    .then(res => {
-      //add the new item to state to display in front end
-      const newState =[...data];
-      newState.push(res.data[0]);
-      setData(newState);
-    })
-    .catch(err => console.log(err))
-  }
   return (
     <div className='App'>
         <InventoryList 
           loading={loading}
           error={error}
           data={data}
-          onDelete={handleRemove}
           onAdd={handleAdd}
+          onUpdate={handleUpdate}
+          onDelete={handleRemove}
         />
     </div>
   );
