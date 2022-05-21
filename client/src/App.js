@@ -36,14 +36,15 @@ function App() {
   }
 
   // handle an edit to an existing inventory item 
-  function handleUpdate(event, editValues) {
-    event.preventDefault();
+  function handleUpdate(editValues) {
     console.log(editValues)
+    const updatedData = data.map(row => {
+      return row.id === editValues.id ? editValues : row;
+    })
+
+    setData(updatedData)
   }
 
-  // function closeModal() {
-  //   setShowModal("none");
-  // }
   function handleRemove(event, id) {
     event.preventDefault();
 

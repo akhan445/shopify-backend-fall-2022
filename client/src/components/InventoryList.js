@@ -1,9 +1,11 @@
 
+import axios from 'axios';
 import { useState } from 'react';
 import './InventoryList.css';
 import InventoryListItem from './InventoryListItem';
 
 function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
+  // state for add form
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -11,6 +13,7 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
     unit_price: ''
   });
 
+  // state for the edit form
   const [editValues, setEditValues] = useState({
     id: '',
     name: '',
@@ -21,10 +24,12 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
 
   const [showModal, setShowModal] = useState("none");
 
+  // show the modal when edit button is clicked
   function openModal() {
     setShowModal("block");
   }
 
+  // close the modal and reset state value
   function closeModal() {
     setShowModal("none");
     setEditValues({
@@ -36,6 +41,7 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
     });
   }
 
+  // sets the initial state for the edit modal
   function handleEdit(event, id) {
     event.preventDefault();
     const currentRow = data.filter(row => row.id === id);
@@ -83,7 +89,15 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
   }
 
   function handleEditSubmit(event) {
-    onUpdate(event, editValues);
+    event.preventDefault();
+
+    axios.patch(`/api/inventory/${editValues.id}`, editValues)
+      .then(res => {
+        console.log("Success", res);
+        onUpdate(editValues);
+        closeModal();
+      })
+      .catch(err => console.log(err));
   }
 
   return (
