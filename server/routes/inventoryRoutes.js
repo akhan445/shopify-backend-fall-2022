@@ -9,7 +9,7 @@ router.get('/', inventoryController.getInventory);
 router.post('/', inventoryController.createInventoryItem);
 
 //route for updating an entry
-router.put('/:id', inventoryController.updateInventoryItem);
+router.patch('/:id', inventoryController.updateInventoryItem);
 
 // route for deleting an entry
 router.delete('/:id', inventoryController.deleteInventoryItem);
