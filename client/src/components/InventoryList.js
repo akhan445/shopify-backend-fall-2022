@@ -23,6 +23,9 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
   });
 
   const [showModal, setShowModal] = useState("none");
+  const [showDeleteModal, setShowDeleteModal] = useState("none");
+  const [comment, setComment] = useState({ id: '', comment: '' });
+
 
   // show the modal when edit button is clicked
   function openModal() {
@@ -41,6 +44,16 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
     });
   }
 
+  function openDeleteModal() {
+    setShowDeleteModal("block");
+  }
+
+  // close the modal and reset state value
+  function closeDeleteModal() {
+    setShowDeleteModal("none");
+    setComment({id: '', comment: ''})
+  }
+  
   // sets the initial state for the edit modal
   function handleEdit(event, id) {
     event.preventDefault();
@@ -50,7 +63,9 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
   }
 
   function handleRemove(event, id) {
-    onDelete(event, id)
+    event.preventDefault();
+    openDeleteModal();
+    setComment({id: id, comment: ''});
   }
 
   // handles changes in form input (for Adding a new item)
@@ -98,7 +113,20 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
         closeModal();
       })
       .catch(err => console.log(err));
+  };
+
+  function handleDeleteCommentChange(event) {
+    const newComment = event.target.value;
+    setComment({...comment, comment: newComment})
   }
+
+  function handleDeleteSubmit(event) {
+    console.log(comment.id, comment.comment)
+    onDelete(event, comment.id, comment.comment);
+    closeDeleteModal();
+  }
+
+  
 
   return (
     <>
@@ -163,6 +191,22 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
               <input type="submit" value="Update Item"/>
             </label>
           </form>
+          </div>
+        </div>
+        <div id="MyDeleteModal" className='modal' style={{display: showDeleteModal}}>
+          <div className='modal-content'>
+          <span className="close" onClick={closeDeleteModal}>&times;</span>
+          <h2>Add Comment</h2>
+          <p>Add a comment about the deletion.</p>
+          <form class='edit-form' onSubmit={handleDeleteSubmit}>
+            <label>
+              <input type="text" name="comment" value={comment.comment} onChange={handleDeleteCommentChange} />
+            </label><br/>
+            <label>
+              <input type="submit" value="Add comment and Delete"/>
+            </label>
+          </form>
+
           </div>
         </div>
         <h2>Add Inventory Item</h2>

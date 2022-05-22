@@ -61,10 +61,10 @@ function App() {
     setData(updatedData)
   }
 
-  function handleRemove(event, id) {
+  function handleRemove(event, id, comment) {
     event.preventDefault();
-
-    axios.delete(`/api/inventory/${id}`)
+    
+    axios.delete(`/api/inventory/${id}`, { data: { comment } })
       .then(res => {
         // set the new state to reflect the deletion by removing from state
         const newState = data.filter(row => row.id !== res.data.rows[0].id);
