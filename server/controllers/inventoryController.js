@@ -55,10 +55,10 @@ module.exports = {
   //delete a single inventory item
   deleteInventoryItem: async (req, res) => {
     try {
-      const { deleteComment } = req.body;
+      const { comment } = req.body;
       const id = req.params.id;
 
-      const deletedItem = await Inventory.delete(id, deleteComment);
+      const deletedItem = await Inventory.delete(id, comment);
       res.status(200).json(deletedItem);
     } catch (err) {
       res.status(400).json({ err });

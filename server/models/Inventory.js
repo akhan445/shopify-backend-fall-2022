@@ -13,7 +13,8 @@ Inventory.get = () => {
   return db.query(`
     SELECT id, name, description, quantity, unit_price
       FROM inventory
-      WHERE is_deleted = false;
+      WHERE is_deleted = false
+      ORDER BY id;
   `);
 };
 
@@ -42,7 +43,7 @@ Inventory.update = (id, name, description, quantity, unit_price) => {
 Inventory.delete = (id, deleteComment) => {
   return db.query(`
     UPDATE inventory
-      SET is_deleted = true, timestamp = current_timestamp, comment = $1
+      SET is_deleted = true, deleted_at = current_timestamp, comment = $1
       WHERE id = $2 RETURNING *;
     `, [deleteComment, id]);
 }
