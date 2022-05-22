@@ -107,7 +107,7 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
       {data && (
         <div className='layout'>
           <h2>Inventory List</h2>
-          <p>This list represents all the current inventory items in the database.</p>
+          <p>This list represents all the current inventory items in the database ordered by id.</p>
           <table>
             <thead>
               <tr>
