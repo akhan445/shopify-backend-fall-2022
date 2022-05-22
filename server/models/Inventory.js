@@ -1,4 +1,5 @@
 const db = require('../db');
+require('dotenv').config()
 
 /**
  * Inventory model which stores the methods related to the inventory table below
@@ -12,7 +13,7 @@ const Inventory = {};
 Inventory.get = () => {
   return db.query(`
     SELECT id, name, description, quantity, unit_price
-      FROM inventory
+      FROM ${process.env.DB_NAME}
       WHERE is_deleted = false
       ORDER BY id;
   `);
@@ -21,7 +22,7 @@ Inventory.get = () => {
 // Create a new inventory entry returning the values created
 Inventory.create = (name, description, quantity, unit_price) => {
   return db.query(`
-    INSERT INTO inventory(name, description, quantity, unit_price)
+    INSERT INTO ${process.env.DB_NAME} (name, description, quantity, unit_price)
       VALUES (
         $1, 
         $2, 
@@ -33,7 +34,7 @@ Inventory.create = (name, description, quantity, unit_price) => {
 // Update an existing entry
 Inventory.update = (id, name, description, quantity, unit_price) => {
   return db.query(`
-    UPDATE inventory
+    UPDATE ${process.env.DB_NAME}
       SET name = $1, description = $2, quantity = $3, unit_price = $4
       WHERE id = $5 RETURNING *;
     `, [name, description, quantity, unit_price, id]);
@@ -42,7 +43,7 @@ Inventory.update = (id, name, description, quantity, unit_price) => {
 // Delete an existing entry
 Inventory.delete = (id, deleteComment) => {
   return db.query(`
-    UPDATE inventory
+    UPDATE ${process.env.DB_NAME}
       SET is_deleted = true, deleted_at = current_timestamp, comment = $1
       WHERE id = $2 RETURNING *;
     `, [deleteComment, id]);
@@ -52,7 +53,7 @@ Inventory.delete = (id, deleteComment) => {
 Inventory.getDeleted = () => {
   return db.query(`
     SELECT id, name, comment, deleted_at
-      FROM inventory
+      FROM ${process.env.DB_NAME}
       WHERE is_deleted = true
       ORDER BY deleted_at DESC;
   `);
@@ -61,7 +62,7 @@ Inventory.getDeleted = () => {
 // undo a delete
 Inventory.undoDelete = (id) => {
   return db.query(`
-    UPDATE inventory
+    UPDATE ${process.env.DB_NAME}
       SET is_deleted = false, deleted_at = null, comment = null
       WHERE id = $1 RETURNING *;
   `, [id]);
