@@ -102,62 +102,12 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
 
   return (
     <>
-      <div className='layout'>
-        <div id="myModal" className="modal" style={{display: showModal}}>
-          <div className="modal-content">
-          <span className="close" onClick={closeModal}>&times;</span>
-          <h2>Edit Entry</h2>
-          <form className="edit-form" onSubmit={handleEditSubmit}>
-            <label>
-              Name:&nbsp;&nbsp;
-              <input name="name" type="text" value={editValues.name} onChange={handleEditChange} />
-            </label><br/>
-            <label>
-              Description:&nbsp;&nbsp;
-              <input type="text" name="description" value={editValues.description} onChange={handleEditChange} />
-            </label><br/>
-            <label>
-              Quantity:&nbsp;&nbsp;
-              <input type="text" name="quantity" value={editValues.quantity} onChange={handleEditChange} />
-            </label><br/>
-            <label>
-              Unit Price:&nbsp;&nbsp;
-              <input type="text" name="unit_price" value={editValues.unit_price} onChange={handleEditChange} />
-            </label><br/>
-            <label>
-              <input type="submit" value="Update Item"/>
-            </label>
-          </form>
-          </div>
-        </div>
-        <h2>Add Inventory Item</h2>
-        <form className="add-form" onSubmit={handleSubmit}>
-          <label>
-            Name:&nbsp;&nbsp;
-            <input name="name" type="text" value={values.name} onChange={handleChange} />
-          </label><br/>
-          <label>
-            Description:&nbsp;&nbsp;
-            <input type="text" name="description" value={values.description} onChange={handleChange} />
-          </label><br/>
-          <label>
-            Quantity:&nbsp;&nbsp;
-            <input type="text" name="quantity" value={values.quantity} onChange={handleChange} />
-          </label><br/>
-          <label>
-            Unit Price:&nbsp;&nbsp;
-            <input type="text" name="unit_price" value={values.unit_price} onChange={handleChange} />
-          </label><br/>
-          <label>
-            <input type="submit" value="Add Item"/>
-          </label>
-        </form>
-      </div>
       {loading && <p>Loading...</p>}
       {error && <p>Error</p>}
       {data && (
         <div className='layout'>
           <h2>Inventory List</h2>
+          <p>This list represents all the current inventory items in the database.</p>
           <table>
             <thead>
               <tr>
@@ -187,7 +137,59 @@ function InventoryList({loading, error, data, onUpdate, onDelete, onAdd}) {
               })}
             </tbody>
           </table>
+        <div id="myModal" className="modal" style={{display: showModal}}>
+          <div className="modal-content">
+          <span className="close" onClick={closeModal}>&times;</span>
+          <h2>Edit Entry</h2>
+          <p>This modal allows you to edit an entry. It loads the current values and to cancel just click the X on the top right.</p>
+          <form className="edit-form" onSubmit={handleEditSubmit}>
+            <label>
+              Name:&nbsp;&nbsp;
+              <input name="name" type="text" value={editValues.name} onChange={handleEditChange} />
+            </label><br/>
+            <label>
+              Description:&nbsp;&nbsp;
+              <input type="text" name="description" value={editValues.description} onChange={handleEditChange} />
+            </label><br/>
+            <label>
+              Quantity:&nbsp;&nbsp;
+              <input type="text" name="quantity" value={editValues.quantity} onChange={handleEditChange} />
+            </label><br/>
+            <label>
+              Unit Price:&nbsp;&nbsp;
+              <input type="text" name="unit_price" value={editValues.unit_price} onChange={handleEditChange} />
+            </label><br/>
+            <label>
+              <input type="submit" value="Update Item"/>
+            </label>
+          </form>
+          </div>
         </div>
+        <h2>Add Inventory Item</h2>
+        <p>Use this form to add a new item to the list of inventory. It will add it to the end of the list.<br></br>
+        <strong>Note: </strong>Quantity and Unit Price must be valid numeric values otherwise the request is unsuccessful.</p>
+        <form className="add-form" onSubmit={handleSubmit}>
+          <label>
+            Name:&nbsp;&nbsp;
+            <input name="name" type="text" value={values.name} onChange={handleChange} />
+          </label><br/>
+          <label>
+            Description:&nbsp;&nbsp;
+            <input type="text" name="description" value={values.description} onChange={handleChange} />
+          </label><br/>
+          <label>
+            Quantity:&nbsp;&nbsp;
+            <input type="text" name="quantity" value={values.quantity} onChange={handleChange} />
+          </label><br/>
+          <label>
+            Unit Price:&nbsp;&nbsp;
+            <input type="text" name="unit_price" value={values.unit_price} onChange={handleChange} />
+          </label><br/>
+          <label>
+            <input type="submit" value="Add Item"/>
+          </label>
+        </form>
+        </div> 
       )}
     </>
   )

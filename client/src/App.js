@@ -58,6 +58,9 @@ function App() {
   }
   return (
     <div className='App'>
+      <h1>Inventory Tracking Application</h1>
+      <p> Inventory Application with CRUD operations</p>
+      <hr></hr>
         <InventoryList 
           loading={loading}
           error={error}
@@ -66,6 +69,7 @@ function App() {
           onUpdate={handleUpdate}
           onDelete={handleRemove}
         />
+        <hr></hr>
     </div>
   );
 }
