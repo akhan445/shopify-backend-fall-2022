@@ -44,10 +44,44 @@ module.exports = {
     }
   },
 
+  /**
+   * This section below deals with deleted items in the API.
+   * The controller support 3 operations which include the following:
+   *      1) Delete- user can delete an exisitng item 
+   *      2) Read- user can view a list of all deleted items
+   *      3) Undo- user can undo a deleted item
+   */
+
+  //delete a single inventory item
   deleteInventoryItem: async (req, res) => {
     try {
-      const deletedItem = await Inventory.delete(req.params.id);
+      const { deleteComment } = req.body;
+      const id = req.params.id;
+
+      const deletedItem = await Inventory.delete(id, deleteComment);
       res.status(200).json(deletedItem);
+    } catch (err) {
+      res.status(400).json({ err });
+    }
+  },
+
+  //get a list of the deleted items
+  getDeletedItems: async (req, res) => {
+    try {
+      const deletedData = await Inventory.getDeleted();
+      res.status(200).json(deletedData.rows);
+    } catch (err) {
+      res.status(400).json({ err });
+    }
+  },
+
+  // undo a delete
+  undoDeletedItem: async (req, res) => {
+    try {
+      const id = req.params.id;
+
+      const undoItem = await Inventory.undoDelete(id);
+      res.status(200).json(undoItem);
     } catch (err) {
       res.status(400).json({ err });
     }

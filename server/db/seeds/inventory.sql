@@ -5,7 +5,10 @@ CREATE TABLE inventory(
   name VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
   quantity INTEGER NOT NULL,
-  unit_price NUMERIC NOT NULL
+  unit_price NUMERIC NOT NULL,
+  is_deleted BOOLEAN DEFAULT FALSE,
+  deleted_at TIMESTAMP DEFAULT NULL,
+  comment VARCHAR(255) DEFAULT NULL
 );
 
 INSERT INTO inventory(name, description, quantity, unit_price)
@@ -32,4 +35,22 @@ INSERT INTO inventory(name, description, quantity, unit_price)
     'Red Vegetable', 
     84, 
     0.88
+  ),
+  (
+    'Pepper', 
+    'Red Vegetable', 
+    38, 
+    0.65
+  ),
+  (
+    'Watermelon', 
+    'Green Fruit', 
+    20, 
+    4.39
+  ),
+  (
+    'Mango', 
+    'Yellow Fruit', 
+    12, 
+    3.98
   );
