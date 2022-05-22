@@ -1,7 +1,6 @@
 
 import './InventoryList.css';
 import DeletedInventoryItem from './DeletedInventoryItem';
-import { useState } from 'react';
 
 function DeletedInventoryList({loading, error, data, onUndo}) {
 
